@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - echo "Installing dependencies (if any)"
+  build:
+    commands:
+      - echo "Building the Lambda function"
+      - zip -r lambda_function.zip .  # Zip the Lambda function
+  post_build:
+    commands:
+      - echo "Deploying Lambda function"
+      - aws lambda update-function-code --function-name SSMQueryLambda --zip-file fileb://lambda_function.zip
+artifacts:
+  files:
+    - lambda_function.zip
